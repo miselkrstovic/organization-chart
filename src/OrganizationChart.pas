@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 { Organization Chart                                                           }
 {                                                                              }
@@ -15,7 +15,7 @@
 { Contains various graphics related classes and subroutines required for       }
 { creating a chart and its nodes, and visual chart interaction.                }
 {                                                                              }
-{ Unit owner:    Misel Krstovic                                                }
+{ Unit owner:    Mišel Krstović                                                }
 { Last modified: March 30, 2013                                                }
 {                                                                              }
 { Contributors:                                                                }
@@ -350,7 +350,7 @@ begin
 
   x := (Self.Width - Self.Canvas.TextWidth(TopicName)) div 2;
   y := (Self.Height - Self.Canvas.TextHeight(TopicName)) div 2;
-    Self.Canvas.Font.Color := Self.Font.Color;
+  Self.Canvas.Font.Color := Self.Font.Color;
 
   Self.Text := TopicName;
   _DrawTextBroadwise(Self.Canvas, Self.Width - 8, Self.Height - 8);

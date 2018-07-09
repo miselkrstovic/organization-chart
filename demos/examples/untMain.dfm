@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Organization Chart 2006'
-  ClientHeight = 423
-  ClientWidth = 654
+  Caption = 'Organization Chart'
+  ClientHeight = 724
+  ClientWidth = 884
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,9 +16,9 @@ object frmMain: TfrmMain
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 448
+    Left = 678
     Top = 0
-    Height = 382
+    Height = 683
     Align = alRight
     ExplicitLeft = 272
     ExplicitTop = 112
@@ -26,8 +26,8 @@ object frmMain: TfrmMain
   end
   object Panel1: TPanel
     Left = 0
-    Top = 382
-    Width = 654
+    Top = 683
+    Width = 884
     Height = 41
     Align = alBottom
     TabOrder = 0
@@ -60,7 +60,7 @@ object frmMain: TfrmMain
       Top = 8
       Width = 91
       Height = 27
-      Caption = 'Delete OCN'
+      Caption = 'Delete Node'
       OnClick = SpeedButton4Click
     end
     object SpeedButton5: TSpeedButton
@@ -68,23 +68,23 @@ object frmMain: TfrmMain
       Top = 8
       Width = 91
       Height = 27
-      Caption = 'Clear OC'
+      Caption = 'Clear Chart'
       OnClick = SpeedButton5Click
     end
   end
   object Panel2: TPanel
-    Left = 451
+    Left = 681
     Top = 0
     Width = 203
-    Height = 382
+    Height = 683
     Align = alRight
     TabOrder = 1
     DesignSize = (
       203
-      382)
+      683)
     object Bevel1: TBevel
       Left = 6
-      Top = 260
+      Top = 561
       Width = 187
       Height = 116
       Anchors = [akLeft, akRight, akBottom]
@@ -92,7 +92,7 @@ object frmMain: TfrmMain
     end
     object Label1: TLabel
       Left = 14
-      Top = 266
+      Top = 567
       Width = 106
       Height = 13
       Anchors = [akLeft, akBottom]
@@ -467,7 +467,7 @@ object frmMain: TfrmMain
     end
     object CheckBox1: TCheckBox
       Left = 14
-      Top = 351
+      Top = 652
       Width = 97
       Height = 17
       Anchors = [akLeft, akBottom]
@@ -477,7 +477,7 @@ object frmMain: TfrmMain
     end
     object radZigzag: TRadioButton
       Left = 14
-      Top = 285
+      Top = 586
       Width = 113
       Height = 17
       Anchors = [akLeft, akBottom]
@@ -489,7 +489,7 @@ object frmMain: TfrmMain
     end
     object radStraight: TRadioButton
       Left = 14
-      Top = 308
+      Top = 609
       Width = 113
       Height = 17
       Anchors = [akLeft, akBottom]
