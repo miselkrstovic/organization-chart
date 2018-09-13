@@ -72,21 +72,6 @@ object frmMain: TfrmMain
       Shape = bsTopLine
       ExplicitTop = 241
     end
-    object Label1: TLabel
-      Left = 14
-      Top = 443
-      Width = 106
-      Height = 13
-      Anchors = [akLeft, akBottom]
-      Caption = 'Line Drawing Type:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-      ExplicitTop = 247
-    end
     object Panel4: TPanel
       Left = 0
       Top = 156
@@ -447,38 +432,6 @@ object frmMain: TfrmMain
         TabOrder = 1
       end
     end
-    object CheckBox1: TCheckBox
-      Left = 14
-      Top = 528
-      Width = 97
-      Height = 17
-      Anchors = [akLeft, akBottom]
-      Caption = 'Abandon Mode'
-      TabOrder = 7
-      OnClick = CheckBox1Click
-    end
-    object radZigzag: TRadioButton
-      Left = 14
-      Top = 462
-      Width = 113
-      Height = 17
-      Anchors = [akLeft, akBottom]
-      Caption = 'Zigzag line'
-      Checked = True
-      TabOrder = 8
-      TabStop = True
-      OnClick = DrawLinkTypeClick
-    end
-    object radStraight: TRadioButton
-      Left = 14
-      Top = 485
-      Width = 113
-      Height = 17
-      Anchors = [akLeft, akBottom]
-      Caption = 'Straight line'
-      TabOrder = 9
-      OnClick = DrawLinkTypeClick
-    end
   end
   object popOrganizationChart: TPopupMenu
     OnPopup = popOrganizationChartPopup
@@ -504,7 +457,7 @@ object frmMain: TfrmMain
     end
     object Settings1: TMenuItem
       Caption = 'Settin&gs'
-      Enabled = False
+      OnClick = Settings1Click
     end
   end
 end

@@ -68,10 +68,6 @@ type
     btnClearChart: TSpeedButton;
     spnWidth: TJvSpinEdit;
     spnHeight: TJvSpinEdit;
-    CheckBox1: TCheckBox;
-    radZigzag: TRadioButton;
-    radStraight: TRadioButton;
-    Label1: TLabel;
     Bevel1: TBevel;
     popOrganizationChart: TPopupMenu;
     AddSiblingNode1: TMenuItem;
@@ -80,9 +76,7 @@ type
     DeleteNode1: TMenuItem;
     N2: TMenuItem;
     Settings1: TMenuItem;
-    procedure DrawLinkTypeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure CheckBox1Click(Sender: TObject);
     procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);
     procedure spnWidthChange(Sender: TObject);
@@ -97,6 +91,7 @@ type
     procedure AddChildNode1Click(Sender: TObject);
     procedure DeleteNode1Click(Sender: TObject);
     procedure popOrganizationChartPopup(Sender: TObject);
+    procedure Settings1Click(Sender: TObject);
   private
     { Private declarations }
     procedure OrganizationChartOnClick(Sender: TObject);
@@ -112,6 +107,8 @@ implementation
 
 {$R *.dfm}
 
+uses untSettings;
+
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
   DoubleBuffered := true;
@@ -121,11 +118,6 @@ end;
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   OrganizationChart.Free;
-end;
-
-procedure TfrmMain.CheckBox1Click(Sender: TObject);
-begin
- OrganizationChart.Abandoner := CheckBox1.Checked;
 end;
 
 procedure TfrmMain.cbxShapeClick(Sender: TObject);
@@ -203,7 +195,7 @@ begin
   AddSiblingNode1.Enabled := False;
   AddChildNode1.Enabled := False;
   Deletenode1.Enabled := False;
-  Settings1.Enabled := False;
+  Settings1.Enabled := True;
 
   if Assigned(OrganizationChart) then begin
     AddSiblingNode1.Enabled := True;
@@ -217,18 +209,37 @@ begin
   end;
 end;
 
-procedure TfrmMain.DeleteNode1Click(Sender: TObject);
+procedure TfrmMain.Settings1Click(Sender: TObject);
+var
+  Dialog : TfrmSettings;
 begin
-  OrganizationChart.DeleteNode;
-end;
+  Dialog := TfrmSettings.Create(Self);
+  with Dialog do begin
+    // Update the settings with options from chart
+    if OrganizationChart.LinkDrawType=ltStraight then begin
+      Dialog.radStraight.Checked := true
+    end else begin
+      Dialog.radZigzag.Checked := true
+    end;
 
-procedure TfrmMain.DrawLinkTypeClick(Sender: TObject);
-begin
-  if radStraight.Checked = true then begin
+    Dialog.CheckBox1.Checked := OrganizationChart.Abandoner;
+  end;
+  Dialog.ShowModal;
+
+  // Update the chart with options from settings
+  if Dialog.radStraight.Checked = true then begin
     OrganizationChart.LinkDrawType := ltStraight
   end else begin
     OrganizationChart.LinkDrawType := ltSquared;
   end;
+
+  OrganizationChart.Abandoner := Dialog.CheckBox1.Checked;
+
+end;
+
+procedure TfrmMain.DeleteNode1Click(Sender: TObject);
+begin
+  OrganizationChart.DeleteNode;
 end;
 
 procedure TfrmMain.btnCreateChartClick(Sender: TObject);
