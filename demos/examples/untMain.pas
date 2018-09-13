@@ -31,14 +31,12 @@ uses
   Dialogs, ExtCtrls, Contnrs, Buttons, Math, ComCtrls, Grids, ValEdit, StdCtrls,
   JvExExtCtrls, JvComponent, JvPanel, JvExControls,
   JvColorBox, JvColorButton, Mask, JvExMask, JvToolEdit, JvSpin,
-  OrganizationChart, Vcl.Tabs;
+  OrganizationChart, Vcl.Tabs, Vcl.Menus;
 
 type
   TfrmMain = class(TForm)
-    SpeedButton1: TSpeedButton;
+    btnCreateChart: TSpeedButton;
     Panel1: TPanel;
-    SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
     Panel2: TPanel;
     Splitter1: TSplitter;
     Panel4: TPanel;
@@ -62,13 +60,12 @@ type
     Panel24: TPanel;
     Panel25: TPanel;
     Panel26: TPanel;
-    edttopicname: TEdit;
-    cmbshape: TComboBox;
-    ComboBox3: TComboBox;
-    JvDateEdit1: TJvDateEdit;
-    JvColorButton1: TJvColorButton;
-    SpeedButton4: TSpeedButton;
-    SpeedButton5: TSpeedButton;
+    edtTopicName: TEdit;
+    cbxShape: TComboBox;
+    cbxAlign: TComboBox;
+    edtCreatedDate: TJvDateEdit;
+    cbxColor: TJvColorButton;
+    btnClearChart: TSpeedButton;
     spnWidth: TJvSpinEdit;
     spnHeight: TJvSpinEdit;
     CheckBox1: TCheckBox;
@@ -76,22 +73,30 @@ type
     radStraight: TRadioButton;
     Label1: TLabel;
     Bevel1: TBevel;
+    popOrganizationChart: TPopupMenu;
+    AddSiblingNode1: TMenuItem;
+    AddChildNode1: TMenuItem;
+    N1: TMenuItem;
+    DeleteNode1: TMenuItem;
+    N2: TMenuItem;
+    Settings1: TMenuItem;
     procedure DrawLinkTypeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CheckBox1Click(Sender: TObject);
-    procedure JvDateEdit1Change(Sender: TObject);
+    procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);
     procedure spnWidthChange(Sender: TObject);
-    procedure SpeedButton5Click(Sender: TObject);
-    procedure SpeedButton4Click(Sender: TObject);
-    procedure cmbshapeClick(Sender: TObject);
-    procedure JvColorButton1Change(Sender: TObject);
-    procedure edttopicnameKeyUp(Sender: TObject; var Key: Word;
+    procedure btnClearChartClick(Sender: TObject);
+    procedure cbxShapeClick(Sender: TObject);
+    procedure cbxColorChange(Sender: TObject);
+    procedure edtTopicNameKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure SpeedButton3Click(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btnCreateChartClick(Sender: TObject);
+    procedure AddSiblingNode1Click(Sender: TObject);
+    procedure AddChildNode1Click(Sender: TObject);
+    procedure DeleteNode1Click(Sender: TObject);
+    procedure popOrganizationChartPopup(Sender: TObject);
   private
     { Private declarations }
     procedure OrganizationChartOnClick(Sender: TObject);
@@ -107,25 +112,10 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmMain.CheckBox1Click(Sender: TObject);
+procedure TfrmMain.FormShow(Sender: TObject);
 begin
-   OrganizationChart.Abandoner := CheckBox1.Checked;
-end;
-
-procedure TfrmMain.cmbshapeClick(Sender: TObject);
-begin
-  if OrganizationChart.SelectedNode <> nil then begin
-    OrganizationChart.SelectedNode.NodeShape :=
-      TOrganizationNodeShapeType(cmbshape.ItemIndex);
-  end;
-end;
-
-procedure TfrmMain.edttopicnameKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if OrganizationChart.SelectedNode <> nil then begin
-    OrganizationChart.SelectedNode.TopicName := trim(edttopicname.Text);
-  end;
+  DoubleBuffered := true;
+  btnCreateChartClick(Sender);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -133,22 +123,37 @@ begin
   OrganizationChart.Free;
 end;
 
-procedure TfrmMain.FormShow(Sender: TObject);
+procedure TfrmMain.CheckBox1Click(Sender: TObject);
 begin
-  DoubleBuffered := true;
-  SpeedButton1Click(Sender);
+ OrganizationChart.Abandoner := CheckBox1.Checked;
 end;
 
-procedure TfrmMain.JvColorButton1Change(Sender: TObject);
-begin
-  if OrganizationChart.SelectedNode <> nil then
-    OrganizationChart.SelectedNode.NodeColor := JvColorButton1.Color;
-end;
-
-procedure TfrmMain.JvDateEdit1Change(Sender: TObject);
+procedure TfrmMain.cbxShapeClick(Sender: TObject);
 begin
   if OrganizationChart.SelectedNode <> nil then begin
-    OrganizationChart.SelectedNode.CreationDate := JvDateEdit1.Date;
+    OrganizationChart.SelectedNode.NodeShape :=
+      TOrganizationNodeShapeType(cbxShape.ItemIndex);
+  end;
+end;
+
+procedure TfrmMain.edtTopicNameKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if OrganizationChart.SelectedNode <> nil then begin
+    OrganizationChart.SelectedNode.TopicName := trim(edttopicname.Text);
+  end;
+end;
+
+procedure TfrmMain.cbxColorChange(Sender: TObject);
+begin
+  if OrganizationChart.SelectedNode <> nil then
+    OrganizationChart.SelectedNode.NodeColor := cbxColor.Color;
+end;
+
+procedure TfrmMain.edtCreatedDateChange(Sender: TObject);
+begin
+  if OrganizationChart.SelectedNode <> nil then begin
+    OrganizationChart.SelectedNode.CreationDate := edtCreatedDate.Date;
   end;
 end;
 
@@ -166,22 +171,17 @@ begin
   end;
 end;
 
-procedure TfrmMain.SpeedButton2Click(Sender: TObject);
-begin
-  OrganizationChart.AddNode(DEFAULT_TOPIC_NAME, nil);
-end;
-
-procedure TfrmMain.SpeedButton3Click(Sender: TObject);
+procedure TfrmMain.AddChildNode1Click(Sender: TObject);
 begin
   OrganizationChart.AddChildNode(DEFAULT_TOPIC_NAME, nil);
 end;
 
-procedure TfrmMain.SpeedButton4Click(Sender: TObject);
+procedure TfrmMain.AddSiblingNode1Click(Sender: TObject);
 begin
-  OrganizationChart.DeleteNode;
+  OrganizationChart.AddNode(DEFAULT_TOPIC_NAME, nil);
 end;
 
-procedure TfrmMain.SpeedButton5Click(Sender: TObject);
+procedure TfrmMain.btnClearChartClick(Sender: TObject);
 begin
   OrganizationChart.Clear;
 end;
@@ -191,29 +191,55 @@ begin
   // Read node values and update editor with attributes
   // Attributes -> Topic name, Creation Date, Width, Height, Shape, Color, Align
   edttopicname.Text := OrganizationChart.SelectedNode.TopicName;
-  JvDateEdit1.Date := OrganizationChart.SelectedNode.CreationDate;
-  cmbshape.ItemIndex := integer(OrganizationChart.SelectedNode.NodeShape);
-  JvColorButton1.Color := OrganizationChart.SelectedNode.NodeColor;
+  edtCreatedDate.Date := OrganizationChart.SelectedNode.CreationDate;
+  cbxShape.ItemIndex := integer(OrganizationChart.SelectedNode.NodeShape);
+  cbxColor.Color := OrganizationChart.SelectedNode.NodeColor;
   spnWidth.Value := OrganizationChart.SelectedNode.Width;
   spnHeight.Value := OrganizationChart.SelectedNode.Height;
 end;
 
-procedure TfrmMain.DrawLinkTypeClick(Sender: TObject);
+procedure TfrmMain.popOrganizationChartPopup(Sender: TObject);
 begin
-  if radStraight.Checked = true then
-    OrganizationChart.LinkDrawType := ltStraight
-  else
-    OrganizationChart.LinkDrawType := ltSquared;
+  AddSiblingNode1.Enabled := False;
+  AddChildNode1.Enabled := False;
+  Deletenode1.Enabled := False;
+  Settings1.Enabled := False;
+
+  if Assigned(OrganizationChart) then begin
+    AddSiblingNode1.Enabled := True;
+    AddChildNode1.Enabled := True;
+
+    if Assigned(OrganizationChart.SelectedNode) then begin
+      if not(OrganizationChart.SelectedNode is TOrganizationRootNode) then begin
+        Deletenode1.Enabled := True;
+      end;
+    end;
+  end;
 end;
 
-procedure TfrmMain.SpeedButton1Click(Sender: TObject);
+procedure TfrmMain.DeleteNode1Click(Sender: TObject);
+begin
+  OrganizationChart.DeleteNode;
+end;
+
+procedure TfrmMain.DrawLinkTypeClick(Sender: TObject);
+begin
+  if radStraight.Checked = true then begin
+    OrganizationChart.LinkDrawType := ltStraight
+  end else begin
+    OrganizationChart.LinkDrawType := ltSquared;
+  end;
+end;
+
+procedure TfrmMain.btnCreateChartClick(Sender: TObject);
 begin
   OrganizationChart := TOrganizationChart.Create(frmMain);
-  OrganizationChart.Width := 800;
-  OrganizationChart.Height := 600;
   OrganizationChart.OnClick := OrganizationChartOnClick;
 
-  SpeedButton1.Enabled := false;
+  PopupMenu := popOrganizationChart;
+
+  btnCreateChart.Enabled := False;
+
   spnHeight.MinValue := DEFAULT_NODE_HEIGHT;
   spnWidth.MinValue := DEFAULT_NODE_WIDTH;
   spnHeight.MaxValue := DEFAULT_NODE_HEIGHT_MAX;
