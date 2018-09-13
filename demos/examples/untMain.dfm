@@ -4,7 +4,7 @@ object frmMain: TfrmMain
   Caption = 'Organization Chart'
   ClientHeight = 600
   ClientWidth = 884
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -18,7 +18,7 @@ object frmMain: TfrmMain
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 678
-    Top = 0
+    Top = 41
     Height = 559
     Align = alRight
     ExplicitLeft = 272
@@ -27,11 +27,13 @@ object frmMain: TfrmMain
   end
   object Panel1: TPanel
     Left = 0
-    Top = 559
+    Top = 0
     Width = 884
     Height = 41
-    Align = alBottom
+    Align = alTop
+    BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 559
     object SpeedButton1: TSpeedButton
       Left = 8
       Top = 8
@@ -41,7 +43,7 @@ object frmMain: TfrmMain
       OnClick = SpeedButton1Click
     end
     object SpeedButton2: TSpeedButton
-      Left = 87
+      Left = 216
       Top = 8
       Width = 78
       Height = 27
@@ -49,7 +51,7 @@ object frmMain: TfrmMain
       OnClick = SpeedButton2Click
     end
     object SpeedButton3: TSpeedButton
-      Left = 171
+      Left = 300
       Top = 8
       Width = 87
       Height = 27
@@ -57,7 +59,7 @@ object frmMain: TfrmMain
       OnClick = SpeedButton3Click
     end
     object SpeedButton4: TSpeedButton
-      Left = 342
+      Left = 393
       Top = 8
       Width = 91
       Height = 27
@@ -65,7 +67,7 @@ object frmMain: TfrmMain
       OnClick = SpeedButton4Click
     end
     object SpeedButton5: TSpeedButton
-      Left = 439
+      Left = 87
       Top = 8
       Width = 91
       Height = 27
@@ -75,11 +77,15 @@ object frmMain: TfrmMain
   end
   object Panel2: TPanel
     Left = 681
-    Top = 0
+    Top = 41
     Width = 203
     Height = 559
     Align = alRight
+    BevelOuter = bvNone
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 1
+    ExplicitTop = 0
     DesignSize = (
       203
       559)
@@ -89,6 +95,7 @@ object frmMain: TfrmMain
       Width = 187
       Height = 116
       Anchors = [akLeft, akRight, akBottom]
+      Shape = bsTopLine
       ExplicitTop = 241
     end
     object Label1: TLabel
@@ -107,17 +114,20 @@ object frmMain: TfrmMain
       ExplicitTop = 247
     end
     object Panel4: TPanel
-      Left = 1
-      Top = 157
-      Width = 201
+      Left = 0
+      Top = 156
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 1
+      ExplicitTop = 157
+      ExplicitWidth = 201
       object Panel3: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -128,15 +138,17 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object ComboBox3: TComboBox
           Left = 0
           Top = 0
-          Width = 105
+          Width = 107
           Height = 21
           Align = alClient
           Color = clBtnFace
           Enabled = False
           TabOrder = 0
+          ExplicitWidth = 105
         end
       end
       object Panel5: TPanel
@@ -157,17 +169,20 @@ object frmMain: TfrmMain
       end
     end
     object Panel6: TPanel
-      Left = 1
-      Top = 105
-      Width = 201
+      Left = 0
+      Top = 104
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitLeft = 1
+      ExplicitTop = 105
+      ExplicitWidth = 201
       object Panel7: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -178,10 +193,11 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object cmbshape: TComboBox
           Left = 0
           Top = 0
-          Width = 105
+          Width = 107
           Height = 21
           Align = alClient
           TabOrder = 0
@@ -194,6 +210,7 @@ object frmMain: TfrmMain
             'stCircle'
             'stSquare'
             'stDiamond')
+          ExplicitWidth = 105
         end
       end
       object Panel8: TPanel
@@ -214,17 +231,20 @@ object frmMain: TfrmMain
       end
     end
     object Panel9: TPanel
-      Left = 1
-      Top = 79
-      Width = 201
+      Left = 0
+      Top = 78
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 2
+      ExplicitLeft = 1
+      ExplicitTop = 79
+      ExplicitWidth = 201
       object Panel10: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -235,15 +255,17 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object spnHeight: TJvSpinEdit
           Left = 0
           Top = 0
-          Width = 105
+          Width = 107
           Height = 26
           Align = alClient
           AutoSize = False
           TabOrder = 0
           OnChange = spnHeightChange
+          ExplicitWidth = 105
         end
       end
       object Panel11: TPanel
@@ -264,17 +286,20 @@ object frmMain: TfrmMain
       end
     end
     object Panel12: TPanel
-      Left = 1
-      Top = 53
-      Width = 201
+      Left = 0
+      Top = 52
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 3
+      ExplicitLeft = 1
+      ExplicitTop = 53
+      ExplicitWidth = 201
       object Panel13: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -285,15 +310,17 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object spnWidth: TJvSpinEdit
           Left = 0
           Top = 0
-          Width = 105
+          Width = 107
           Height = 26
           Align = alClient
           AutoSize = False
           TabOrder = 0
           OnChange = spnWidthChange
+          ExplicitWidth = 105
         end
       end
       object Panel14: TPanel
@@ -314,17 +341,20 @@ object frmMain: TfrmMain
       end
     end
     object Panel15: TPanel
-      Left = 1
-      Top = 27
-      Width = 201
+      Left = 0
+      Top = 26
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 4
+      ExplicitLeft = 1
+      ExplicitTop = 27
+      ExplicitWidth = 201
       object Panel16: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -335,15 +365,17 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object JvDateEdit1: TJvDateEdit
           Left = 0
           Top = 0
-          Width = 105
+          Width = 107
           Height = 26
           Align = alClient
           ShowNullDate = False
           TabOrder = 0
           OnChange = JvDateEdit1Change
+          ExplicitWidth = 105
           ExplicitHeight = 21
         end
       end
@@ -365,17 +397,20 @@ object frmMain: TfrmMain
       end
     end
     object Panel18: TPanel
-      Left = 1
-      Top = 1
-      Width = 201
+      Left = 0
+      Top = 0
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 5
+      ExplicitLeft = 1
+      ExplicitTop = 1
+      ExplicitWidth = 201
       object Panel19: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -386,14 +421,16 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object edttopicname: TEdit
           Left = 0
           Top = 0
-          Width = 105
+          Width = 107
           Height = 26
           Align = alClient
           TabOrder = 0
           OnKeyUp = edttopicnameKeyUp
+          ExplicitWidth = 105
           ExplicitHeight = 21
         end
       end
@@ -415,17 +452,20 @@ object frmMain: TfrmMain
       end
     end
     object Panel24: TPanel
-      Left = 1
-      Top = 131
-      Width = 201
+      Left = 0
+      Top = 130
+      Width = 203
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 6
+      ExplicitLeft = 1
+      ExplicitTop = 131
+      ExplicitWidth = 201
       object Panel25: TPanel
         Left = 96
         Top = 0
-        Width = 105
+        Width = 107
         Height = 26
         Align = alClient
         BevelOuter = bvNone
@@ -436,6 +476,7 @@ object frmMain: TfrmMain
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 105
         object JvColorButton1: TJvColorButton
           Left = 0
           Top = 0

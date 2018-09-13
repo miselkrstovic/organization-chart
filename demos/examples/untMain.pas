@@ -20,7 +20,7 @@
 {   Drag and drop support                                                      }
 {   Fix bug with horizontal node alignment                                     }
 {   Zooming in and out                                                         }
-{   Loading and saving of the chart                                            }
+{   Loading and saving of the chart (Persistence as JSON object                }
 {                                                                              }
 {******************************************************************************}
 
@@ -29,10 +29,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, Contnrs, Buttons, Math, ComCtrls, Grids, ValEdit, StdCtrls,
-  JvExExtCtrls, JvComponent, JvPanel, JvOfficeColorPanel, JvExControls,
+  JvExExtCtrls, JvComponent, JvPanel, JvExControls,
   JvColorBox, JvColorButton, Mask, JvExMask, JvToolEdit, JvSpin,
-  OrganizationChart,
-  JvGradient;
+  OrganizationChart, Vcl.Tabs;
 
 type
   TfrmMain = class(TForm)
@@ -110,7 +109,7 @@ implementation
 
 procedure TfrmMain.CheckBox1Click(Sender: TObject);
 begin
-  OrganizationChart.Abandoner := CheckBox1.Checked;
+   OrganizationChart.Abandoner := CheckBox1.Checked;
 end;
 
 procedure TfrmMain.cmbshapeClick(Sender: TObject);

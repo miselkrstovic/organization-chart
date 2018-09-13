@@ -558,7 +558,9 @@ begin
 
   BevelInner := bvNone;
   BevelOuter := bvNone;
+  BevelKind := bkNone;
   BorderStyle:= bsNone;
+  Ctl3D := False;
 
   Align := alNone;
 
