@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Organization Chart'
-  ClientHeight = 724
+  ClientHeight = 600
   ClientWidth = 884
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
   object Splitter1: TSplitter
     Left = 678
     Top = 0
-    Height = 683
+    Height = 559
     Align = alRight
     ExplicitLeft = 272
     ExplicitTop = 112
@@ -27,7 +27,7 @@ object frmMain: TfrmMain
   end
   object Panel1: TPanel
     Left = 0
-    Top = 683
+    Top = 559
     Width = 884
     Height = 41
     Align = alBottom
@@ -77,15 +77,15 @@ object frmMain: TfrmMain
     Left = 681
     Top = 0
     Width = 203
-    Height = 683
+    Height = 559
     Align = alRight
     TabOrder = 1
     DesignSize = (
       203
-      683)
+      559)
     object Bevel1: TBevel
       Left = 6
-      Top = 561
+      Top = 437
       Width = 187
       Height = 116
       Anchors = [akLeft, akRight, akBottom]
@@ -93,7 +93,7 @@ object frmMain: TfrmMain
     end
     object Label1: TLabel
       Left = 14
-      Top = 567
+      Top = 443
       Width = 106
       Height = 13
       Anchors = [akLeft, akBottom]
@@ -468,7 +468,7 @@ object frmMain: TfrmMain
     end
     object CheckBox1: TCheckBox
       Left = 14
-      Top = 652
+      Top = 528
       Width = 97
       Height = 17
       Anchors = [akLeft, akBottom]
@@ -478,7 +478,7 @@ object frmMain: TfrmMain
     end
     object radZigzag: TRadioButton
       Left = 14
-      Top = 586
+      Top = 462
       Width = 113
       Height = 17
       Anchors = [akLeft, akBottom]
@@ -490,7 +490,7 @@ object frmMain: TfrmMain
     end
     object radStraight: TRadioButton
       Left = 14
-      Top = 609
+      Top = 485
       Width = 113
       Height = 17
       Anchors = [akLeft, akBottom]

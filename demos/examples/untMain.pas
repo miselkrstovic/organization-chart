@@ -97,7 +97,6 @@ type
     { Private declarations }
     procedure OrganizationChartOnClick(Sender: TObject);
   public
-
     { Public declarations }
   end;
 
@@ -116,8 +115,7 @@ end;
 
 procedure TfrmMain.cmbshapeClick(Sender: TObject);
 begin
-  if OrganizationChart.SelectedNode <> nil then
-  begin
+  if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.NodeShape :=
       TOrganizationNodeShapeType(cmbshape.ItemIndex);
   end;
@@ -126,8 +124,7 @@ end;
 procedure TfrmMain.edttopicnameKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if OrganizationChart.SelectedNode <> nil then
-  begin
+  if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.TopicName := trim(edttopicname.Text);
   end;
 end;
@@ -151,24 +148,21 @@ end;
 
 procedure TfrmMain.JvDateEdit1Change(Sender: TObject);
 begin
-  if OrganizationChart.SelectedNode <> nil then
-  begin
+  if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.CreationDate := JvDateEdit1.Date;
   end;
 end;
 
 procedure TfrmMain.spnHeightChange(Sender: TObject);
 begin
-  if OrganizationChart.SelectedNode <> nil then
-  begin
+  if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.Height := trunc(spnHeight.Value);
   end;
 end;
 
 procedure TfrmMain.spnWidthChange(Sender: TObject);
 begin
-  if OrganizationChart.SelectedNode <> nil then
-  begin
+  if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.Width := trunc(spnWidth.Value);
   end;
 end;
@@ -219,6 +213,7 @@ begin
   OrganizationChart.Width := 800;
   OrganizationChart.Height := 600;
   OrganizationChart.OnClick := OrganizationChartOnClick;
+
   SpeedButton1.Enabled := false;
   spnHeight.MinValue := DEFAULT_NODE_HEIGHT;
   spnWidth.MinValue := DEFAULT_NODE_WIDTH;

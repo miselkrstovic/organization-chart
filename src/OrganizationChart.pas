@@ -280,8 +280,8 @@ var
 
       if (LexemCount > 1) and LBroadwiseLine then
         X := X + AdditSpace / (LexemCount - 1);
+
       TextOut(Canvas.Handle, Trunc(X1) + HFix, LineNo * TextHeight + YFix, PChar(Lexem), Length(Lexem));
-//todo:      WideCanvasTextOut(Self.Canvas, Trunc(X1), LineNo * TextHeight, TopicName);
       X1 := X;
       DrawPos1 := DrawPos2;
     end;
@@ -353,7 +353,8 @@ begin
   Self.Canvas.Font.Color := Self.Font.Color;
 
   Self.Text := TopicName;
-  _DrawTextBroadwise(Self.Canvas, Self.Width - 8, Self.Height - 8);
+  Self.Caption := TopicName;
+  //  _DrawTextBroadwise(Self.Canvas, Self.Width - 8, Self.Height - 8);
 end;
 
 function TOrganizationNode._GetAlign: TOrganizationNodeShapeAlignment;
@@ -559,7 +560,7 @@ end;
 
 procedure TOrganizationChart.DeleteNode;
 var
-  i, j    : integer;
+  i, j : integer;
 begin
    if SelectedNode<>RootNode then begin
       // Reallocate children to parentnode's children list
@@ -576,7 +577,7 @@ begin
       // Delete object from parents children list
       j := SelectedNode.ParentNode.Children.IndexOf(SelectedNode);
       if j<>-1 then begin
-          SelectedNode.ParentNode.Children.Delete(j);
+        SelectedNode.ParentNode.Children.Delete(j);
       end;
 
       SelectedNode := SelectedNode.ParentNode;
@@ -594,6 +595,7 @@ destructor TOrganizationChart.Destroy;
 begin
   Abandoner := false;
   RootNode.Free;
+
   inherited;
 end;
 
@@ -671,6 +673,7 @@ var
   Size : TPoint;
 begin
   Size := Point(100, 100);
+
   // Calculating the scrollbars
   for i := 0 to Self.ControlCount - 1 do begin
     if (Self.Controls[i] is TOrganizationNode) then begin
@@ -689,13 +692,12 @@ begin
   _DisplacementsMap.Clear; // Clear up the map data
   displacement(RootNode); // Calculate the child-parent displacement values
   RecursiveDraw(0, 0, _DisplacementsMap, RootNode); // Draw the graph
-//  writeln;
 end;
 
 procedure TOrganizationChart.DrawNodesLink(Point1, Point2: TPoint; LinkType : TOrganizationNodeLinkDrawType = ltSquared);
 var
-  Points    : array of TPoint;
-  Angle     : Extended;
+  Points : array of TPoint;
+  Angle : Extended;
   RightAngle,
   LeftAngle : Extended;
 const
@@ -709,9 +711,11 @@ begin
   case LinkType of
     ltStraight : begin
       SetLength(Points, 3);
+
       // Draw the line
       Self.Canvas.PenPos := Point1;
       Self.Canvas.LineTo(Point2.X, Point2.Y);
+
       // Draw the arrow
       Points[0] := Point2;
 
@@ -730,12 +734,14 @@ begin
     end;
     ltSquared : begin
       SetLength(Points, 4);
+
       // Draw the line
       Points[0] := Point1;
       Points[1] := Point(Point1.X, Point1.y + abs(Point2.Y - Point1.Y) Div 2);
       Points[2] := Point(Point2.X, Point1.y + abs(Point2.Y - Point1.Y) Div 2);
       Points[3] := point2;
       Self.Canvas.Polyline(Points);
+
       // Draw the arrow
       Self.Canvas.PenPos := Point2;
       Self.Canvas.Polygon([Point2, Point(Point2.X-2, Point2.Y-6), Point(Point2.X+2, Point2.Y-6)]);
@@ -761,9 +767,9 @@ var
 begin
   CurrentNode.IsCollapsed := State;
   if CurrentNode.HasChildren then begin
-     for i := 0 to CurrentNode.Children.Count - 1 do begin
-        FullStateChange(State, TOrganizationNode(CurrentNode.Children[i]));
-     end;
+    for i := 0 to CurrentNode.Children.Count - 1 do begin
+      FullStateChange(State, TOrganizationNode(CurrentNode.Children[i]));
+    end;
   end;
 end;
 
@@ -782,33 +788,32 @@ var
   i : integer;
 begin
   if CurrentNode.HasChildren then begin
-     for i := 0 to CurrentNode.Children.Count - 1 do begin
-        TOrganizationNode(CurrentNode.Children[i]).Brush.Color := TOrganizationNode(CurrentNode.Children[i]).NodeColor;
-        ResetColorEx(TOrganizationNode(CurrentNode.Children[i]));
-     end;
+    for i := 0 to CurrentNode.Children.Count - 1 do begin
+      TOrganizationNode(CurrentNode.Children[i]).Brush.Color := TOrganizationNode(CurrentNode.Children[i]).NodeColor;
+      ResetColorEx(TOrganizationNode(CurrentNode.Children[i]));
+    end;
   end;
 end;
 
-procedure TOrganizationChart.SetLinkDrawType(
-  const Value: TOrganizationNodeLinkDrawType);
+procedure TOrganizationChart.SetLinkDrawType(const Value: TOrganizationNodeLinkDrawType);
 begin
   _LinkDrawType := Value;
   Repaint;
 end;
 
-Function TOrganizationChart.displacement(CurrentNode : TOrganizationNode):Integer;
+Function TOrganizationChart.displacement(CurrentNode : TOrganizationNode): Integer;
 var
-  i    : integer;
+  i : integer;
 begin
   CurrentNode._Displacement := 0;
   if CurrentNode.HasChildren then begin
-     for i := 0 to CurrentNode.Children.Count - 1 do begin
-        CurrentNode._Displacement := CurrentNode._Displacement + displacement(TOrganizationNode(CurrentNode.Children[i]));
-     end;
+    for i := 0 to CurrentNode.Children.Count - 1 do begin
+      CurrentNode._Displacement := CurrentNode._Displacement + displacement(TOrganizationNode(CurrentNode.Children[i]));
+    end;
 
-     result := CurrentNode._Displacement;
+    result := CurrentNode._Displacement;
   end else begin
-     result := CurrentNode.Width + IndentX;
+    result := CurrentNode.Width + IndentX;
   end;  
 end;
 
@@ -817,12 +822,12 @@ var
   i : integer;
 begin
   if CurrentNode.HasChildren then begin
-     for i := 0 to CurrentNode.Children.Count - 1 do begin
-        ClearNode(TOrganizationNode(CurrentNode.Children[i]));
-     end;
+    for i := 0 to CurrentNode.Children.Count - 1 do begin
+      ClearNode(TOrganizationNode(CurrentNode.Children[i]));
+    end;
 
-     CurrentNode.Children.Clear;
-     SelectedNode := CurrentNode;
+    CurrentNode.Children.Clear;
+    SelectedNode := CurrentNode;
   end;
 end;
 
@@ -850,7 +855,7 @@ begin
     Temp := SelectedNode.TopicName;
     InputBox('Organization Chart Node Renaming', 'Enter new name', SelectedNode.TopicName);
 
-    // only repaint if the TopicName has changed
+    // Only repaint if the TopicName has changed
     if Temp<>SelectedNode.TopicName then Repaint;
   end;
 end;
