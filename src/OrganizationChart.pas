@@ -146,6 +146,16 @@ type
     procedure DoNodeChange(Sender : TObject);
   end;
 
+  TFontMetrics = class
+  private
+    ownerCanvas : TCanvas;
+  public
+    constructor Create(ACanvas : TCanvas);
+    function stringWidth(Value : String): integer;
+    function getHeight: integer;
+    function getAscent(): integer;
+  end;
+
 implementation
 
 {$R Cursors.res}
@@ -858,6 +868,27 @@ begin
     // Only repaint if the TopicName has changed
     if Temp<>SelectedNode.TopicName then Repaint;
   end;
+end;
+
+{ TFontMetrics }
+
+constructor TFontMetrics.Create(ACanvas: TCanvas);
+begin
+  ownercanvas := ACanvas;
+end;
+function TFontMetrics.getAscent: integer;
+begin
+  result := 0;
+end;
+
+function TFontMetrics.getHeight: integer;
+begin
+  result := ownerCanvas.TextHeight('Jp');
+end;
+
+function TFontMetrics.stringWidth(Value: String): integer;
+begin
+  result := ownerCanvas.TextWidth(Value);
 end;
 
 initialization
