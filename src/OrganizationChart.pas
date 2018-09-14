@@ -16,11 +16,12 @@
 { creating a chart and its nodes, and visual chart interaction.                }
 {                                                                              }
 { Unit owner:    Mišel Krstović                                                }
-{ Last modified: March 30, 2013                                                }
+{ Last modified: September 13, 2018                                            }
 {                                                                              }
 { Contributors:                                                                }
 {   Altaf J. Basha                                                             }
 {   Kareem Gendy                                                               }
+{                                                                              }
 {******************************************************************************}
 
 unit OrganizationChart;

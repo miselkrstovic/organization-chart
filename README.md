@@ -45,11 +45,27 @@ Here is an example instantiation from one of the accompanied demo examples.
 procedure TfrmMain.SpeedButton1Click(Sender: TObject);
 begin
   OrganizationChart := TOrganizationChart.Create(frmMain);
-  OrganizationChart.Width := 800;
-  OrganizationChart.Height := 600;
   OrganizationChart.OnClick := OrganizationChartOnClick;
 end;
 ```
+
+## Todo
+
+* Better node width calculation                                                     
+* Better node height calculation                                                    
+* Drag and drop support                                                      
+* Fix bug with horizontal node alignment                                     
+* Zooming in and out                                                         
+* Loading and saving of the chart (Persistence as JSON object                
+* Background color (Default, Selected)
+* Node meta information (Photo, Name, Role, Dept., Phone, Email, IM, etc)
+* New node shape card type
+* Custom node rendering (Customizing node shape and information presentation)
+* Search support
+* Node graphical handles:
+  * Collapse/expand (+ icon)
+  * Add sibling/child node
+  * Node information dialog
 
 ## License
 

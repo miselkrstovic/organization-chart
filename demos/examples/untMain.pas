@@ -1,5 +1,4 @@
-﻿unit untMain;
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 { Organization Chart                                                           }
 {                                                                              }
@@ -12,17 +11,11 @@
 { the specific language governing rights and limitations under the License.    }
 {                                                                              }
 { Unit owner:    Mišel Krstović                                                }
-{ Last modified: March 30, 2013                                                }
-{                                                                              }
-{ Todo:                                                                        }
-{   Node width calculation                                                     }
-{   Node height calculation                                                    }
-{   Drag and drop support                                                      }
-{   Fix bug with horizontal node alignment                                     }
-{   Zooming in and out                                                         }
-{   Loading and saving of the chart (Persistence as JSON object                }
+{ Last modified: Septermber 14, 2018                                           }
 {                                                                              }
 {******************************************************************************}
+
+unit untMain;
 
 interface
 

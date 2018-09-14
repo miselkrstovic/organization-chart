@@ -79,7 +79,5 @@ object frmSettings: TfrmSettings
     Caption = '&Close'
     ModalResult = 8
     TabOrder = 3
-    ExplicitLeft = 446
-    ExplicitTop = 296
   end
 end
