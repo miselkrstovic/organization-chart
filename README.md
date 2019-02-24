@@ -67,6 +67,9 @@ end;
   * Add sibling/child node
   * Node information dialog
 
+## Contributing
+Please take a look at the [contributing](CONTRIBUTING.md) guidelines if you're interested in helping!
+
 ## License
 
 Organization Chart is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
