@@ -45,7 +45,7 @@ const
   crHandClose = 2;
 
 type
-  TOrganizationNodeShapeType = (nsRectangle, nsRoundRect, nsEllipse, nsCircle,nsSquare,nsDiamond);
+  TOrganizationNodeShapeType = (nsRectangle, nsRoundRect, nsEllipse, nsCircle, nsSquare, nsDiamond);
   TOrganizationNodeShapeAlignment = (saRight, saCenter, saLeft);
   TOrganizationNodeLinkDrawType = (ltSquared, ltStraight);
 
@@ -463,13 +463,14 @@ begin
     ChildNode.ParentNode := SelectedNode;
     SelectedNode := ChildNode;
 
-    SelectedNode._TopicName := ATopicName;
-    SelectedNode._NodeShape := AShape;
-    SelectedNode._NodeColor := AColor;
-    SelectedNode._NodeAlign := AAlign;
-    SelectedNode.Width      := AWidth;
-    SelectedNode.Height     := AHeight;
-    SelectedNode.Data       := Ptr;
+    SelectedNode.TopicName := ATopicName;
+    SelectedNode.NodeShape := AShape;
+    SelectedNode.NodeColor := AColor;
+    SelectedNode.NodeAlign := AAlign;
+    SelectedNode.Width     := AWidth;
+    SelectedNode.Height    := AHeight;
+    SelectedNode.Data      := Ptr;
+
     result := SelectedNode;
   finally
     Repaint;
@@ -503,13 +504,14 @@ begin
         SelectedNode := ChildNode;
     end;
 
-    SelectedNode._TopicName := ATopicName;
-    SelectedNode._NodeShape := AShape;
-    SelectedNode._NodeColor := AColor;
-    SelectedNode._NodeAlign := AAlign;
+    SelectedNode.TopicName := ATopicName;
+    SelectedNode.NodeShape := AShape;
+    SelectedNode.NodeColor := AColor;
+    SelectedNode.NodeAlign := AAlign;
     SelectedNode.Width      := AWidth;
     SelectedNode.Height     := AHeight;
     SelectedNode.Data       := Ptr;
+
     result := SelectedNode;
   finally
     Repaint;

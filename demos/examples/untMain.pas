@@ -28,36 +28,6 @@ uses
 
 type
   TfrmMain = class(TForm)
-    Panel2: TPanel;
-    Splitter1: TSplitter;
-    Panel4: TPanel;
-    Panel3: TPanel;
-    Panel5: TPanel;
-    Panel6: TPanel;
-    Panel7: TPanel;
-    Panel8: TPanel;
-    Panel9: TPanel;
-    Panel10: TPanel;
-    Panel11: TPanel;
-    Panel12: TPanel;
-    Panel13: TPanel;
-    Panel14: TPanel;
-    Panel15: TPanel;
-    Panel16: TPanel;
-    Panel17: TPanel;
-    Panel18: TPanel;
-    Panel19: TPanel;
-    Panel20: TPanel;
-    Panel24: TPanel;
-    Panel25: TPanel;
-    Panel26: TPanel;
-    edtTopicName: TEdit;
-    cbxShape: TComboBox;
-    cbxAlign: TComboBox;
-    edtCreatedDate: TJvDateEdit;
-    cbxColor: TJvColorButton;
-    spnWidth: TJvSpinEdit;
-    spnHeight: TJvSpinEdit;
     popOrganizationChart: TPopupMenu;
     AddSiblingNode1: TMenuItem;
     AddChildNode1: TMenuItem;
@@ -67,11 +37,30 @@ type
     Settings1: TMenuItem;
     N3: TMenuItem;
     ClearChart1: TMenuItem;
+    pnlNodeOptions: TPanel;
+    pnlNodeOptionsHeader: TPanel;
+    edtTopicName: TEdit;
+    cbxColor: TJvColorButton;
+    spdNodeShapeRectangle: TSpeedButton;
+    spdNodeShapeRoundRectangle: TSpeedButton;
+    spdNodeShapeEllipse: TSpeedButton;
+    spdNodeShapeCircle: TSpeedButton;
+    spdNodeShapeSquare: TSpeedButton;
+    spdNodeShapeDiamond: TSpeedButton;
+    lblNodeCaption: TLabel;
+    lblNodeShape: TLabel;
+    lblNodeSize: TLabel;
+    spnWidth: TJvSpinEdit;
+    spnHeight: TJvSpinEdit;
+    lblNodeColor: TLabel;
+    cbxAlign: TComboBox;
+    lblNodeAlignment: TLabel;
+    edtCreatedDate: TJvDateEdit;
+    Label1: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);
     procedure spnWidthChange(Sender: TObject);
-    procedure cbxShapeClick(Sender: TObject);
     procedure cbxColorChange(Sender: TObject);
     procedure edtTopicNameKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -82,6 +71,7 @@ type
     procedure popOrganizationChartPopup(Sender: TObject);
     procedure Settings1Click(Sender: TObject);
     procedure ClearChart1Click(Sender: TObject);
+    procedure spdNodeShapeClick(Sender: TObject);
   private
     { Private declarations }
     procedure OrganizationChartOnClick(Sender: TObject);
@@ -111,14 +101,6 @@ begin
   OrganizationChart.Free;
 end;
 
-procedure TfrmMain.cbxShapeClick(Sender: TObject);
-begin
-  if OrganizationChart.SelectedNode <> nil then begin
-    OrganizationChart.SelectedNode.NodeShape :=
-      TOrganizationNodeShapeType(cbxShape.ItemIndex);
-  end;
-end;
-
 procedure TfrmMain.ClearChart1Click(Sender: TObject);
 begin
   if MessageDlg('Are you sure you want to clear the whole chart?', mtWarning, mbYesNo, 0) = mrYes then begin
@@ -144,6 +126,25 @@ procedure TfrmMain.edtCreatedDateChange(Sender: TObject);
 begin
   if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.CreationDate := edtCreatedDate.Date;
+  end;
+end;
+
+procedure TfrmMain.spdNodeShapeClick(Sender: TObject);
+begin
+  if OrganizationChart.SelectedNode <> nil then begin
+    if spdNodeShapeRectangle.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsRectangle;
+    end else if spdNodeShapeRoundRectangle.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsRoundRect;
+    end else if spdNodeShapeEllipse.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsEllipse;
+    end else if spdNodeShapeCircle.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsCircle;
+    end else if spdNodeShapeSquare.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsSquare;
+    end else if spdNodeShapeDiamond.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsDiamond;
+    end;
   end;
 end;
 
@@ -175,12 +176,19 @@ procedure TfrmMain.OrganizationChartOnClick(Sender: TObject);
 begin
   // Read node values and update editor with attributes
   // Attributes -> Topic name, Creation Date, Width, Height, Shape, Color, Align
-  edttopicname.Text := OrganizationChart.SelectedNode.TopicName;
-  edtCreatedDate.Date := OrganizationChart.SelectedNode.CreationDate;
-  cbxShape.ItemIndex := integer(OrganizationChart.SelectedNode.NodeShape);
+  edtTopicName.Text := OrganizationChart.SelectedNode.TopicName;
+  case OrganizationChart.SelectedNode.NodeShape of
+    nsRectangle : spdNodeShapeRectangle.Down := True;
+    nsRoundRect : spdNodeShapeRoundRectangle.Down := True;
+    nsEllipse   : spdNodeShapeEllipse.Down := True;
+    nsCircle    : spdNodeShapeCircle.Down := True;
+    nsSquare    : spdNodeShapeSquare.Down := True;
+    nsDiamond   : spdNodeShapeDiamond.Down := True;
+  end;
   cbxColor.Color := OrganizationChart.SelectedNode.NodeColor;
   spnWidth.Value := OrganizationChart.SelectedNode.Width;
   spnHeight.Value := OrganizationChart.SelectedNode.Height;
+  edtCreatedDate.Date := OrganizationChart.SelectedNode.CreationDate;
 end;
 
 procedure TfrmMain.popOrganizationChartPopup(Sender: TObject);
@@ -242,6 +250,7 @@ begin
     OrganizationChart.OnClick := OrganizationChartOnClick;
 
     PopupMenu := popOrganizationChart;
+    pnlNodeOptions.BringToFront;
 
     spnHeight.MinValue := DEFAULT_NODE_HEIGHT;
     spnWidth.MinValue := DEFAULT_NODE_WIDTH;
