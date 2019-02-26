@@ -8,7 +8,7 @@ A library that provides a visual organization chart support for Delphi based sof
 
 * Ability to manage nodes at runtime (adding, removing, and clearing)
 * Availability of two line drawing modes (zigzag lines, and straight lines)
-* Special abandon mode when deleting a node, that allows removing only the selected node for deletion and reattaching its dependant nodes, or totally abandoning dependant nodes on deletion
+* Special abandon mode when deleting a node, that allows removing only the selected node for deletion and reattaching its dependent nodes, or totally abandoning dependent nodes on deletion
 * Nodes support attributes such as `Topic Name`, `Creation Date`, `Width`, `Height`, `Shape`, `Color`, and `Alignment`
 * Supported node shapes are `Rectangle`, `Round Rectangle`, `Ellipse`, `Circle`, `Square`, and `Diamond`
 
@@ -56,7 +56,7 @@ end;
 * Drag and drop support                                                      
 * Fix bug with horizontal node alignment                                     
 * Zooming in and out                                                         
-* Loading and saving of the chart (Persistence as JSON object                
+* Loading and saving of the chart (Persistence as JSON object)
 * Background color (Default, Selected)
 * Node meta information (Photo, Name, Role, Dept., Phone, Email, IM, etc)
 * New node shape card type
@@ -67,8 +67,11 @@ end;
   * Add sibling/child node
   * Node information dialog
 
+
 ## Contributing
+
 Please take a look at the [contributing](CONTRIBUTING.md) guidelines if you're interested in helping!
+
 
 ## License
 

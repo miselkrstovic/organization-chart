@@ -28,8 +28,6 @@ uses
 
 type
   TfrmMain = class(TForm)
-    btnCreateChart: TSpeedButton;
-    Panel1: TPanel;
     Panel2: TPanel;
     Splitter1: TSplitter;
     Panel4: TPanel;
@@ -58,10 +56,8 @@ type
     cbxAlign: TComboBox;
     edtCreatedDate: TJvDateEdit;
     cbxColor: TJvColorButton;
-    btnClearChart: TSpeedButton;
     spnWidth: TJvSpinEdit;
     spnHeight: TJvSpinEdit;
-    Bevel1: TBevel;
     popOrganizationChart: TPopupMenu;
     AddSiblingNode1: TMenuItem;
     AddChildNode1: TMenuItem;
@@ -69,25 +65,27 @@ type
     DeleteNode1: TMenuItem;
     N2: TMenuItem;
     Settings1: TMenuItem;
+    N3: TMenuItem;
+    ClearChart1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);
     procedure spnWidthChange(Sender: TObject);
-    procedure btnClearChartClick(Sender: TObject);
     procedure cbxShapeClick(Sender: TObject);
     procedure cbxColorChange(Sender: TObject);
     procedure edtTopicNameKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure btnCreateChartClick(Sender: TObject);
     procedure AddSiblingNode1Click(Sender: TObject);
     procedure AddChildNode1Click(Sender: TObject);
     procedure DeleteNode1Click(Sender: TObject);
     procedure popOrganizationChartPopup(Sender: TObject);
     procedure Settings1Click(Sender: TObject);
+    procedure ClearChart1Click(Sender: TObject);
   private
     { Private declarations }
     procedure OrganizationChartOnClick(Sender: TObject);
+    procedure InitOrganizationChart;
   public
     { Public declarations }
   end;
@@ -105,7 +103,7 @@ uses untSettings;
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
   DoubleBuffered := true;
-  btnCreateChartClick(Sender);
+  InitOrganizationChart;
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -118,6 +116,13 @@ begin
   if OrganizationChart.SelectedNode <> nil then begin
     OrganizationChart.SelectedNode.NodeShape :=
       TOrganizationNodeShapeType(cbxShape.ItemIndex);
+  end;
+end;
+
+procedure TfrmMain.ClearChart1Click(Sender: TObject);
+begin
+  if MessageDlg('Are you sure you want to clear the whole chart?', mtWarning, mbYesNo, 0) = mrYes then begin
+    OrganizationChart.Clear;
   end;
 end;
 
@@ -164,11 +169,6 @@ end;
 procedure TfrmMain.AddSiblingNode1Click(Sender: TObject);
 begin
   OrganizationChart.AddNode(DEFAULT_TOPIC_NAME, nil);
-end;
-
-procedure TfrmMain.btnClearChartClick(Sender: TObject);
-begin
-  OrganizationChart.Clear;
 end;
 
 procedure TfrmMain.OrganizationChartOnClick(Sender: TObject);
@@ -235,19 +235,19 @@ begin
   OrganizationChart.DeleteNode;
 end;
 
-procedure TfrmMain.btnCreateChartClick(Sender: TObject);
+procedure TfrmMain.InitOrganizationChart;
 begin
-  OrganizationChart := TOrganizationChart.Create(frmMain);
-  OrganizationChart.OnClick := OrganizationChartOnClick;
+  if OrganizationChart = nil then begin
+    OrganizationChart := TOrganizationChart.Create(frmMain);
+    OrganizationChart.OnClick := OrganizationChartOnClick;
 
-  PopupMenu := popOrganizationChart;
+    PopupMenu := popOrganizationChart;
 
-  btnCreateChart.Enabled := False;
-
-  spnHeight.MinValue := DEFAULT_NODE_HEIGHT;
-  spnWidth.MinValue := DEFAULT_NODE_WIDTH;
-  spnHeight.MaxValue := DEFAULT_NODE_HEIGHT_MAX;
-  spnWidth.MaxValue := DEFAULT_NODE_WIDTH_MAX;
+    spnHeight.MinValue := DEFAULT_NODE_HEIGHT;
+    spnWidth.MinValue := DEFAULT_NODE_WIDTH;
+    spnHeight.MaxValue := DEFAULT_NODE_HEIGHT_MAX;
+    spnWidth.MaxValue := DEFAULT_NODE_WIDTH_MAX;
+  end;
 end;
 
 initialization

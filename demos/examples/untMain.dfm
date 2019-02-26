@@ -18,60 +18,25 @@ object frmMain: TfrmMain
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 678
-    Top = 41
-    Height = 559
+    Top = 0
+    Height = 600
     Align = alRight
     ExplicitLeft = 272
     ExplicitTop = 112
     ExplicitHeight = 100
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 884
-    Height = 41
-    Align = alTop
-    BevelOuter = bvNone
-    TabOrder = 0
-    object btnCreateChart: TSpeedButton
-      Left = 8
-      Top = 8
-      Width = 97
-      Height = 27
-      Caption = 'Create Chart'
-      OnClick = btnCreateChartClick
-    end
-    object btnClearChart: TSpeedButton
-      Left = 111
-      Top = 8
-      Width = 91
-      Height = 27
-      Caption = 'Clear Chart'
-      OnClick = btnClearChartClick
-    end
-  end
   object Panel2: TPanel
     Left = 681
-    Top = 41
+    Top = 0
     Width = 203
-    Height = 559
+    Height = 600
     Align = alRight
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
-    TabOrder = 1
-    DesignSize = (
-      203
-      559)
-    object Bevel1: TBevel
-      Left = 6
-      Top = 437
-      Width = 187
-      Height = 116
-      Anchors = [akLeft, akRight, akBottom]
-      Shape = bsTopLine
-      ExplicitTop = 241
-    end
+    TabOrder = 0
+    ExplicitTop = 41
+    ExplicitHeight = 559
     object Panel4: TPanel
       Left = 0
       Top = 156
@@ -436,7 +401,7 @@ object frmMain: TfrmMain
   object popOrganizationChart: TPopupMenu
     OnPopup = popOrganizationChartPopup
     Left = 24
-    Top = 72
+    Top = 24
     object AddSiblingNode1: TMenuItem
       Caption = 'Add &sibling node'
       OnClick = AddSiblingNode1Click
@@ -458,6 +423,13 @@ object frmMain: TfrmMain
     object Settings1: TMenuItem
       Caption = 'Settin&gs'
       OnClick = Settings1Click
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object ClearChart1: TMenuItem
+      Caption = 'Clear Chart'
+      OnClick = ClearChart1Click
     end
   end
 end
