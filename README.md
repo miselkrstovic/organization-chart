@@ -1,5 +1,7 @@
 # Organization Chart
 
+<img src="screenshots/main.png" width="512px">
+
 A library that provides a visual organization chart support for Delphi based software development.
 
 <!--![Main](screenshots/main.png)-->
