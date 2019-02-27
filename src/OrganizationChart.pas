@@ -69,7 +69,9 @@ type
     procedure _SetCreationDate(const Value: TDateTime);
     procedure _SetShape(const Value: TOrganizationNodeShapeType);
     procedure _SetTopicName(const Value: WideString);
-    procedure _DrawTextBroadwise(Canvas: TCanvas; Width : Integer; Height : Integer); // Author: JVCL
+    procedure _DrawTextBroadwise(Canvas: TCanvas); // Author: JVCL
+  protected
+    procedure Paint; override;
   public
     IsCollapsed    : Boolean; // Todo: Node collapsing feature
     Children       : TObjectList;
@@ -84,7 +86,7 @@ type
     property NodeAlign : TOrganizationNodeShapeAlignment Read _GetAlign write _SetAlign;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Paint(var Message: TWMChar); message WM_PAINT;
+//    procedure Paint(var Message: TWMChar); message WM_PAINT;
     function HasChildren : boolean;
     function IsAbandoner : boolean;
     procedure DoClick(Sender : Tobject);
@@ -240,10 +242,7 @@ begin
   end;
 end;
 
-procedure TOrganizationNode._DrawTextBroadwise(Canvas: TCanvas; Width : Integer; Height : Integer);
-const
-  HFix = 4;
-  YFix = 8;
+procedure TOrganizationNode._DrawTextBroadwise(Canvas: TCanvas);
 var
   DrawPos, Pos1, Pos2, LineWidth, LineNo, LexemCount, TextHeight: Integer;
   Lexem: string;
@@ -292,7 +291,7 @@ var
       if (LexemCount > 1) and LBroadwiseLine then
         X := X + AdditSpace / (LexemCount - 1);
 
-      TextOut(Canvas.Handle, Trunc(X1) + HFix, LineNo * TextHeight + YFix, PChar(Lexem), Length(Lexem));
+      TextOut(Canvas.Handle, Trunc(X1), LineNo * TextHeight, PChar(Lexem), Length(Lexem));
       X1 := X;
       DrawPos1 := DrawPos2;
     end;
@@ -317,6 +316,7 @@ begin
     Inc(LexemCount);
     if TextHeight < Size.cy then
       TextHeight := Size.cy;
+
     if (LineWidth > Width) or (Pos2 >= Length(Caption)) then begin
       if LineWidth > Width then begin
         if LexemCount = 1 then
@@ -337,11 +337,10 @@ begin
       end;
     end else Pos1 := Pos2;
   until LStop;
-//todo:  if FAutoSize then
-//    Height := Max(12, LineNo * TextHeight);
+// todo:  Height := Max(12, LineNo * TextHeight);
 end;
 
-procedure TOrganizationNode.Paint(var Message: TWMChar);
+procedure TOrganizationNode.Paint();
 var
   x, y      : integer;
   Points    : array of TPoint;
@@ -365,7 +364,7 @@ begin
 
   Self.Text := TopicName;
   Self.Caption := TopicName;
-  //  _DrawTextBroadwise(Self.Canvas, Self.Width - 8, Self.Height - 8);
+  _DrawTextBroadwise(Self.Canvas);
 end;
 
 function TOrganizationNode._GetAlign: TOrganizationNodeShapeAlignment;
