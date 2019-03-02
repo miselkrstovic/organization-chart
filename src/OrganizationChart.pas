@@ -100,7 +100,7 @@ type
   TOrganizationChart = class(TPanel)
   private
     _ContainerBox     : TScrollBox;
-    _OnClick          : TNotifyEvent;
+    _OnChange         : TNotifyEvent;
     _DisplacementsMap : TStrings;
     _LinkDrawType     : TOrganizationNodeLinkDrawType;
 
@@ -133,7 +133,7 @@ type
     procedure FullCollapse;
     procedure Clear;
     property LinkDrawType : TOrganizationNodeLinkDrawType read _LinkDrawType write SetLinkDrawType;
-    property OnClick : TNotifyEvent read _OnClick write _OnClick;
+    property OnChange : TNotifyEvent read _OnChange write _OnChange;
 
     function AddNode(ATopicName : WideString; Ptr : TObject;
         AShape : TOrganizationNodeShapeType = nsRoundRect; AColor : TColor = clWhite;
@@ -147,6 +147,7 @@ type
     procedure DeleteNode;
     procedure DoUpdateScrollBars;
     procedure DoNodeChange(Sender : TObject);
+    procedure ChartClick(Sender: TObject);
   end;
 
   TFontMetrics = class
@@ -531,7 +532,10 @@ constructor TOrganizationChart.Create(AOwner: TComponent);
 begin
   // Do not move the INHERITED statement above these three lines.
   _ContainerBox := TScrollBox.Create(AOwner);
+  _ContainerBox.BorderStyle := bsNone;
   _ContainerBox.Align := alClient;
+  _ContainerBox.OnClick := ChartClick;
+
   if AOwner.InheritsFrom(TWinControl) then
     _ContainerBox.Parent := TWinControl(AOwner)
   else
@@ -563,8 +567,9 @@ begin
   BevelKind := bkNone;
   BorderStyle:= bsNone;
   Ctl3D := False;
-
   Align := alNone;
+
+  OnClick := ChartClick;
 
   if AOwner.InheritsFrom(TWinControl) then
     Parent := TWinControl(AOwner)
@@ -678,7 +683,15 @@ end;
 
 procedure TOrganizationChart.DoNodeChange(Sender: TObject);
 begin
-  if Assigned(_OnClick) then OnClick(Sender);
+  if Assigned(_OnChange) then OnChange(Sender);
+end;
+
+procedure TOrganizationChart.ChartClick(Sender: TObject);
+begin
+  ResetColor;
+  SelectedNode := RootNode;
+
+  if Assigned(_OnChange) then OnChange(nil);
 end;
 
 procedure TOrganizationChart.DoUpdateScrollBars;

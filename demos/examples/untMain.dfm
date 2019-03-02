@@ -804,6 +804,14 @@ object frmMain: TfrmMain
       TabOrder = 6
       OnChange = edtCreatedDateChange
     end
+    object pnlNodeOptionsHide: TPanel
+      Left = 0
+      Top = 320
+      Width = 301
+      Height = 14
+      BevelOuter = bvNone
+      TabOrder = 7
+    end
   end
   object popOrganizationChart: TPopupMenu
     OnPopup = popOrganizationChartPopup
