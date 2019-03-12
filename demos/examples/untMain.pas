@@ -220,15 +220,19 @@ var
   Dialog : TfrmSettings;
 begin
   Dialog := TfrmSettings.Create(Self);
+
+  // Update the settings with options from chart
   with Dialog do begin
-    // Update the settings with options from chart
     if OrganizationChart.LinkDrawType=ltStraight then begin
       Dialog.radStraight.Checked := true
     end else begin
       Dialog.radZigzag.Checked := true
     end;
 
-    Dialog.CheckBox1.Checked := OrganizationChart.Abandoner;
+    Dialog.cbxAbandonMode.Checked := OrganizationChart.Abandoner;
+
+    Dialog.cbxSelectedColor.Color := OrganizationChart.SelectedNodeColor;
+    Dialog.cbxBackgroundColor.Color := OrganizationChart.BackgroundColor;
   end;
   Dialog.ShowModal;
 
@@ -239,8 +243,10 @@ begin
     OrganizationChart.LinkDrawType := ltSquared;
   end;
 
-  OrganizationChart.Abandoner := Dialog.CheckBox1.Checked;
+  OrganizationChart.Abandoner := Dialog.cbxAbandonMode.Checked;
 
+  OrganizationChart.SelectedNodeColor := Dialog.cbxSelectedColor.Color;
+  OrganizationChart.BackgroundColor := Dialog.cbxBackgroundColor.Color;
 end;
 
 procedure TfrmMain.DeleteNode1Click(Sender: TObject);

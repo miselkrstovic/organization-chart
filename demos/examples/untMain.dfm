@@ -815,7 +815,7 @@ object frmMain: TfrmMain
   end
   object popOrganizationChart: TPopupMenu
     OnPopup = popOrganizationChartPopup
-    Left = 24
+    Left = 48
     Top = 24
     object AddSiblingNode1: TMenuItem
       Caption = 'Add &sibling node'

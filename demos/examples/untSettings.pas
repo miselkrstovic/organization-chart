@@ -21,16 +21,21 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, JvExControls, JvColorBox,
+  JvColorButton;
 
 type
   TfrmSettings = class(TForm)
     Label1: TLabel;
     radZigzag: TRadioButton;
     radStraight: TRadioButton;
-    CheckBox1: TCheckBox;
+    cbxAbandonMode: TCheckBox;
     Label2: TLabel;
     Button1: TButton;
+    Label3: TLabel;
+    cbxSelectedColor: TJvColorButton;
+    Label4: TLabel;
+    cbxBackgroundColor: TJvColorButton;
   private
     { Private declarations }
   public

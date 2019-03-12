@@ -3,7 +3,7 @@ object frmSettings: TfrmSettings
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Settings'
-  ClientHeight = 217
+  ClientHeight = 219
   ClientWidth = 491
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,11 +15,11 @@ object frmSettings: TfrmSettings
   Position = poOwnerFormCenter
   DesignSize = (
     491
-    217)
+    219)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 45
+    Left = 21
     Top = 23
     Width = 103
     Height = 13
@@ -32,7 +32,7 @@ object frmSettings: TfrmSettings
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 45
+    Left = 21
     Top = 119
     Width = 107
     Height = 13
@@ -44,8 +44,34 @@ object frmSettings: TfrmSettings
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label3: TLabel
+    Left = 261
+    Top = 87
+    Width = 99
+    Height = 13
+    Caption = 'Background Color'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 261
+    Top = 23
+    Width = 81
+    Height = 13
+    Caption = 'Selected Color'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object radZigzag: TRadioButton
-    Left = 45
+    Left = 21
     Top = 50
     Width = 113
     Height = 17
@@ -55,15 +81,15 @@ object frmSettings: TfrmSettings
     TabStop = True
   end
   object radStraight: TRadioButton
-    Left = 45
+    Left = 21
     Top = 73
     Width = 113
     Height = 17
     Caption = 'Straight line'
     TabOrder = 1
   end
-  object CheckBox1: TCheckBox
-    Left = 45
+  object cbxAbandonMode: TCheckBox
+    Left = 21
     Top = 144
     Width = 97
     Height = 17
@@ -71,13 +97,35 @@ object frmSettings: TfrmSettings
     TabOrder = 2
   end
   object Button1: TButton
-    Left = 400
-    Top = 176
+    Left = 408
+    Top = 186
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = '&Close'
     ModalResult = 8
     TabOrder = 3
+  end
+  object cbxSelectedColor: TJvColorButton
+    Left = 261
+    Top = 42
+    Width = 105
+    Height = 26
+    OtherCaption = '&Other...'
+    Options = []
+    Color = clWhite
+    TabOrder = 4
+    TabStop = False
+  end
+  object cbxBackgroundColor: TJvColorButton
+    Left = 261
+    Top = 106
+    Width = 105
+    Height = 26
+    OtherCaption = '&Other...'
+    Options = []
+    Color = clWhite
+    TabOrder = 5
+    TabStop = False
   end
 end

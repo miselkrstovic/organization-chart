@@ -109,10 +109,12 @@ type
     procedure RecursiveDraw(LevelY, LevelX : integer; var DisplacementsMap : TStrings; CurrentNode : TOrganizationNode);
     procedure ResetColor;
     procedure ResetColorEx(CurrentNode : TOrganizationNode);
-    function displacement(CurrentNode : TOrganizationNode):Integer;
+    function Displacement(CurrentNode : TOrganizationNode):Integer;
     procedure ClearNode(CurrentNode : TOrganizationNode);
     procedure DrawNodesLink(Point1, Point2 : TPoint; LinkType : TOrganizationNodeLinkDrawType = ltSquared);
     function MaxDisplacement(LevelY : Integer = 0) : integer;
+    procedure SetBackgroundColor(const Value: TColor);
+    procedure SetSelectedNodeColor(const Value: TColor);
   public
     Abandoner : boolean;
     Zoom      : boolean;
@@ -125,6 +127,9 @@ type
     RootNode     : TOrganizationRootNode;
     SelectedNode : TOrganizationNode;
 
+    _SelectedNodeColor : TColor;
+    _BackgroundColor : TColor;
+
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Draw;
@@ -134,6 +139,8 @@ type
     procedure Clear;
     property LinkDrawType : TOrganizationNodeLinkDrawType read _LinkDrawType write SetLinkDrawType;
     property OnChange : TNotifyEvent read _OnChange write _OnChange;
+    property SelectedNodeColor : TColor read _SelectedNodeColor write SetSelectedNodeColor;
+    property BackgroundColor : TColor read _BackgroundColor write SetBackgroundColor;
 
     function AddNode(ATopicName : WideString; Ptr : TObject;
         AShape : TOrganizationNodeShapeType = nsRoundRect; AColor : TColor = clWhite;
@@ -199,11 +206,13 @@ end;
 
 procedure TOrganizationNode.DoClick(Sender: Tobject);
 begin
-  TOrganizationChart(Self.Parent).ResetColor;
-  TOrganizationChart(Self.Parent).SelectedNode := Self;
-  Self.Brush.Color := clRed;
+  if Assigned(Self.Parent) then begin
+    TOrganizationChart(Self.Parent).ResetColor;
+    TOrganizationChart(Self.Parent).SelectedNode := Self;
+    Self.Brush.Color := TOrganizationChart(Self.Parent)._SelectedNodeColor;
 
-  if Assigned(OnClick) then _OnClick(Self);
+    if Assigned(OnClick) then _OnClick(Self);
+  end;
 end;
 
 procedure TOrganizationNode.DoMouseDown(Sender: TObject; Button: TMouseButton;
@@ -530,7 +539,7 @@ end;
 
 constructor TOrganizationChart.Create(AOwner: TComponent);
 begin
-  // Do not move the INHERITED statement above these three lines.
+  // Do not move the INHERITED statement above these four lines.
   _ContainerBox := TScrollBox.Create(AOwner);
   _ContainerBox.BorderStyle := bsNone;
   _ContainerBox.Align := alClient;
@@ -568,6 +577,9 @@ begin
   BorderStyle:= bsNone;
   Ctl3D := False;
   Align := alNone;
+
+  SetSelectedNodeColor(clSilver);
+  SetBackgroundColor(clWhite);
 
   OnClick := ChartClick;
 
@@ -731,7 +743,7 @@ const
   LineAngle  = 16;
   LineLength =  6;
 begin
-  // Attention: All calculations are in DEGREES and are NOT in radians!!
+  // Attention: All calculations are in DEGREES and aren't in RADIANS!!
   // ---------------------------------------------------------------
   Self.Canvas.Brush.Color := Self.Canvas.Pen.Color;
   Self.Canvas.Pen.Color := Self.Canvas.Pen.Color;
@@ -822,13 +834,31 @@ begin
   end;
 end;
 
+procedure TOrganizationChart.SetBackgroundColor(const Value: TColor);
+begin
+  _BackgroundColor := Value;
+
+  _ContainerBox.Color := _BackgroundColor;
+  Color := _BackgroundColor;
+end;
+
 procedure TOrganizationChart.SetLinkDrawType(const Value: TOrganizationNodeLinkDrawType);
 begin
   _LinkDrawType := Value;
   Repaint;
 end;
 
-Function TOrganizationChart.displacement(CurrentNode : TOrganizationNode): Integer;
+procedure TOrganizationChart.SetSelectedNodeColor(const Value: TColor);
+begin
+  _SelectedNodeColor := Value;
+
+  // Refreshing node color
+  if SelectedNode <> nil then begin
+    SelectedNode.Click;
+  end;
+end;
+
+Function TOrganizationChart.Displacement(CurrentNode : TOrganizationNode): Integer;
 var
   i : integer;
 begin
