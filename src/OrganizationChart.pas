@@ -206,13 +206,11 @@ end;
 
 procedure TOrganizationNode.DoClick(Sender: Tobject);
 begin
-  if Assigned(Self.Parent) then begin
-    TOrganizationChart(Self.Parent).ResetColor;
-    TOrganizationChart(Self.Parent).SelectedNode := Self;
-    Self.Brush.Color := TOrganizationChart(Self.Parent)._SelectedNodeColor;
+  TOrganizationChart(Self.Parent).ResetColor;
+  TOrganizationChart(Self.Parent).SelectedNode := Self;
+  Self.Brush.Color := TOrganizationChart(Self.Parent)._SelectedNodeColor;
 
-    if Assigned(OnClick) then _OnClick(Self);
-  end;
+  if Assigned(OnClick) then _OnClick(Self);
 end;
 
 procedure TOrganizationNode.DoMouseDown(Sender: TObject; Button: TMouseButton;
@@ -853,8 +851,10 @@ begin
   _SelectedNodeColor := Value;
 
   // Refreshing node color
-  if SelectedNode <> nil then begin
-    SelectedNode.Click;
+  if (SelectedNode <> nil) and (RootNode <> nil) then begin
+    if SelectedNode <> RootNode then begin
+      SelectedNode.Click;
+    end;
   end;
 end;
 
