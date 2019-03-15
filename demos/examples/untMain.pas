@@ -59,7 +59,7 @@ type
     pnlNodeOptionsHide: TPanel;
     spdNodeShapeCard: TSpeedButton;
     spdNodeShapeDiamond: TSpeedButton;
-    SpeedButton1: TSpeedButton;
+    spdNodeShapeRoundSquare: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);
@@ -139,12 +139,14 @@ begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsRectangle;
     end else if spdNodeShapeRoundRectangle.Down then begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsRoundRect;
+    end else if spdNodeShapeSquare.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsSquare;
+    end else if spdNodeShapeRoundSquare.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsRoundSquare;
     end else if spdNodeShapeEllipse.Down then begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsEllipse;
     end else if spdNodeShapeCircle.Down then begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsCircle;
-    end else if spdNodeShapeSquare.Down then begin
-      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsSquare;
     end else if spdNodeShapeDiamond.Down then begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsDiamond;
     end else if spdNodeShapeCard.Down then begin
@@ -186,13 +188,14 @@ begin
     // Attributes -> Topic name, Creation Date, Width, Height, Shape, Color, Align
     edtTopicName.Text := OrganizationChart.SelectedNode.TopicName;
     case OrganizationChart.SelectedNode.NodeShape of
-      nsRectangle : spdNodeShapeRectangle.Down := True;
-      nsRoundRect : spdNodeShapeRoundRectangle.Down := True;
-      nsEllipse   : spdNodeShapeEllipse.Down := True;
-      nsCircle    : spdNodeShapeCircle.Down := True;
-      nsSquare    : spdNodeShapeSquare.Down := True;
-      nsDiamond   : spdNodeShapeDiamond.Down := True;
-      nsCard      : spdNodeShapeCard.Down := True;
+      nsRectangle   : spdNodeShapeRectangle.Down := True;
+      nsRoundRect   : spdNodeShapeRoundRectangle.Down := True;
+      nsSquare      : spdNodeShapeSquare.Down := True;
+      nsRoundSquare : spdNodeShapeRoundSquare.Down := True;
+      nsEllipse     : spdNodeShapeEllipse.Down := True;
+      nsCircle      : spdNodeShapeCircle.Down := True;
+      nsDiamond     : spdNodeShapeDiamond.Down := True;
+      nsCard        : spdNodeShapeCard.Down := True;
     end;
     cbxColor.Color := OrganizationChart.SelectedNode.NodeColor;
     spnWidth.Value := OrganizationChart.SelectedNode.Width;

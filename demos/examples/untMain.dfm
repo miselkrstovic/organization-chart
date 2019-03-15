@@ -826,7 +826,7 @@ object frmMain: TfrmMain
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       OnClick = spdNodeShapeClick
     end
-    object SpeedButton1: TSpeedButton
+    object spdNodeShapeRoundSquare: TSpeedButton
       Left = 151
       Top = 96
       Width = 48
