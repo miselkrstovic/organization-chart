@@ -11,7 +11,7 @@
 { the specific language governing rights and limitations under the License.    }
 {                                                                              }
 { Unit owner:    Mišel Krstović                                                }
-{ Last modified: Septermber 14, 2018                                           }
+{ Last modified: March 13, 2019                                                }
 {                                                                              }
 {******************************************************************************}
 
@@ -46,7 +46,6 @@ type
     spdNodeShapeEllipse: TSpeedButton;
     spdNodeShapeCircle: TSpeedButton;
     spdNodeShapeSquare: TSpeedButton;
-    spdNodeShapeDiamond: TSpeedButton;
     lblNodeCaption: TLabel;
     lblNodeShape: TLabel;
     lblNodeSize: TLabel;
@@ -58,6 +57,9 @@ type
     edtCreatedDate: TJvDateEdit;
     Label1: TLabel;
     pnlNodeOptionsHide: TPanel;
+    spdNodeShapeCard: TSpeedButton;
+    spdNodeShapeDiamond: TSpeedButton;
+    SpeedButton1: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);
@@ -145,6 +147,8 @@ begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsSquare;
     end else if spdNodeShapeDiamond.Down then begin
       OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsDiamond;
+    end else if spdNodeShapeCard.Down then begin
+      OrganizationChart.SelectedNode.NodeShape := TOrganizationNodeShapeType.nsCard;
     end;
   end;
 end;
@@ -188,6 +192,7 @@ begin
       nsCircle    : spdNodeShapeCircle.Down := True;
       nsSquare    : spdNodeShapeSquare.Down := True;
       nsDiamond   : spdNodeShapeDiamond.Down := True;
+      nsCard      : spdNodeShapeCard.Down := True;
     end;
     cbxColor.Color := OrganizationChart.SelectedNode.NodeColor;
     spnWidth.Value := OrganizationChart.SelectedNode.Width;

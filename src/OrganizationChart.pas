@@ -16,7 +16,7 @@
 { creating a chart and its nodes, and visual chart interaction.                }
 {                                                                              }
 { Unit owner:    Mišel Krstović                                                }
-{ Last modified: September 13, 2018                                            }
+{ Last modified: March 13, 2019                                                }
 {                                                                              }
 { Contributors:                                                                }
 {   Altaf J. Basha                                                             }
@@ -45,17 +45,21 @@ const
   crHandClose = 2;
 
 type
-  TOrganizationNodeShapeType = (nsRectangle, nsRoundRect, nsEllipse, nsCircle, nsSquare, nsDiamond);
+  TOrganizationNodeShapeType = (nsRectangle, nsSquare, nsRoundRect, nsRoundSquare, nsEllipse, nsCircle, nsDiamond, nsCard, nsCustom);
   TOrganizationNodeShapeAlignment = (saRight, saCenter, saLeft);
   TOrganizationNodeLinkDrawType = (ltSquared, ltStraight);
 
-  TOrganizationNode = class(TShape)
+  TOrganizationNode = class(TGraphicControl)
   private
-    _TopicName : WideString;
     _CreationDate : TDateTime;
+
+    _Pen: TPen;
+    _Brush: TBrush;
+
     _NodeShape : TOrganizationNodeShapeType;
     _NodeColor : TColor;
     _NodeAlign : TOrganizationNodeShapeAlignment;
+
     _Displacement : Integer;
     _OnClick : TNotifyEvent;
 
@@ -69,8 +73,18 @@ type
     procedure _SetCreationDate(const Value: TDateTime);
     procedure _SetShape(const Value: TOrganizationNodeShapeType);
     procedure _SetTopicName(const Value: WideString);
+
+    procedure _DrawCustomShape();
+    procedure _DrawCardShape();
+    procedure _DrawDiamondShape();
+    procedure _DrawInheritedShape();
+
     procedure _DrawTextBroadwise(Canvas: TCanvas); // Author: JVCL
+
+    procedure SetBrush(const Value: TBrush);
+    procedure SetPen(const Value: TPen); // Author: Vcl.ExtCtrls
   protected
+    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override; // Author: Vcl.ExtCtrls
     procedure Paint; override;
   public
     IsCollapsed    : Boolean; // Todo: Node collapsing feature
@@ -81,18 +95,22 @@ type
     property OnNodeChange : TNotifyEvent read _OnClick write _OnClick;
     property TopicName : WideString read _GetTopicName write _SetTopicName;
     Property CreationDate : TDateTime  read _GetCreationDate write _SetCreationDate;
-    property NodeShape : TOrganizationNodeShapeType read _GetShape write _SetShape;
+    property NodeShape : TOrganizationNodeShapeType read _GetShape write _SetShape default nsRoundRect;
     property NodeColor : TColor read _GetColor write _SetColor;
     property NodeAlign : TOrganizationNodeShapeAlignment Read _GetAlign write _SetAlign;
+
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-//    procedure Paint(var Message: TWMChar); message WM_PAINT;
     function HasChildren : boolean;
     function IsAbandoner : boolean;
     procedure DoClick(Sender : Tobject);
     procedure DoMouseLeave(Sender : Tobject);
     procedure DoMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  published
+    procedure StyleChanged(Sender: TObject);
+    property Pen: TPen read _Pen write SetPen;
+    property Brush: TBrush read _Brush write SetBrush;
   end;
 
   TOrganizationRootNode = class(TOrganizationNode);
@@ -159,12 +177,12 @@ type
 
   TFontMetrics = class
   private
-    ownerCanvas : TCanvas;
+    OwnerCanvas : TCanvas;
   public
     constructor Create(ACanvas : TCanvas);
-    function stringWidth(Value : String): integer;
-    function getHeight: integer;
-    function getAscent(): integer;
+    function StringWidth(Value : WideString): integer;
+    function GetHeight: integer;
+    function GetAscent(): integer;
   end;
 
 implementation
@@ -175,7 +193,15 @@ implementation
 
 constructor TOrganizationNode.Create(AOwner: TComponent);
 begin
-  inherited;
+  inherited Create(AOwner);
+  ControlStyle := ControlStyle + [csReplicatable];
+  Width := 65;
+  Height := 65;
+  _Pen := TPen.Create;
+  _Pen.OnChange := StyleChanged;
+  _Brush := TBrush.Create;
+  _Brush.OnChange := StyleChanged;
+
   IsCollapsed  := false;
   TopicName    := DEFAULT_TOPIC_NAME;
   CreationDate := Now;
@@ -201,6 +227,15 @@ begin
   // ..there should be a mechanism to reallocate the child nodes to a
   // ..parent node.
   if Self.IsAbandoner then Self.Children.Clear;
+
+  _Pen.Free;
+  _Brush.Free;
+  inherited;
+end;
+
+procedure TOrganizationNode.ChangeScale(M, D: Integer; isDpiChange: Boolean);
+begin
+  _Pen.Width := MulDiv(_Pen.Width, M, D);
   inherited;
 end;
 
@@ -247,6 +282,99 @@ begin
     result := TOrganizationChart(Self.Parent).Abandoner;
   end else begin
     result := false;
+  end;
+end;
+
+procedure TOrganizationNode.Paint();
+var
+  x, y : integer;
+begin
+  if NodeShape = nsCustom then begin
+    _DrawCustomShape();
+  end else if NodeShape = nsCard then begin
+    _DrawCardShape();
+  end else if NodeShape = nsDiamond then begin
+    _DrawDiamondShape();
+  end else begin
+    _DrawInheritedShape();
+  end;
+
+  x := (Self.Width - Self.Canvas.TextWidth(TopicName)) div 2;
+  y := (Self.Height - Self.Canvas.TextHeight(TopicName)) div 2;
+  Self.Canvas.Font.Color := Self.Font.Color;
+
+  _DrawTextBroadwise(Self.Canvas);
+end;
+
+procedure TOrganizationNode.SetBrush(const Value: TBrush);
+begin
+  _Brush.Assign(Value);
+end;
+
+procedure TOrganizationNode.SetPen(const Value: TPen);
+begin
+  _Pen.Assign(Value);
+end;
+
+procedure TOrganizationNode.StyleChanged(Sender: TObject);
+begin
+  Invalidate;
+end;
+
+procedure TOrganizationNode._DrawCustomShape;
+begin
+  // TODO:
+end;
+
+procedure TOrganizationNode._DrawCardShape;
+begin
+  // TODO:
+end;
+
+procedure TOrganizationNode._DrawDiamondShape;
+var
+  Points : array of TPoint;
+begin
+  SetLength(Points, 4);
+  Points[0] := Point(0, Self.Height div 2);
+  Points[1] := Point(Self.Width div 2,0);
+  Points[2] := Point(self.Width, Self.Height div 2);
+  Points[3] := Point(Self.Width div 2,Self.Height);
+
+  self.Canvas.Brush.Color := self.Brush.Color;
+  Self.Canvas.Polygon(Points);
+end;
+
+procedure TOrganizationNode._DrawInheritedShape();
+var
+  X, Y, W, H, S: Integer;
+begin
+  with Canvas do begin
+    Pen := _Pen;
+    Brush := _Brush;
+    X := Pen.Width div 2;
+    Y := X;
+    W := Width - Pen.Width + 1;
+    H := Height - Pen.Width + 1;
+    if Pen.Width = 0 then begin
+      Dec(W);
+      Dec(H);
+    end;
+    if W < H then S := W else S := H;
+    if NodeShape in [nsSquare, nsRoundSquare, nsCircle] then begin
+      Inc(X, (W - S) div 2);
+      Inc(Y, (H - S) div 2);
+      W := S;
+      H := S;
+    end;
+    case NodeShape of
+      nsRectangle, nsSquare:
+        Rectangle(X, Y, X + W, Y + H);
+      nsRoundRect, nsRoundSquare:
+        RoundRect(X, Y, X + W, Y + H, S div 4, S div 4);
+      nsCircle, nsEllipse:
+        Ellipse(X, Y, X + W, Y + H);
+    end;
   end;
 end;
 
@@ -306,7 +434,7 @@ var
   end;
 
 begin
-  if Text = '' then Exit;
+  if Caption = '' then Exit;
   LineWidth := 0;
   LineNo := 0;
   DrawPos := 1;
@@ -348,33 +476,6 @@ begin
 // todo:  Height := Max(12, LineNo * TextHeight);
 end;
 
-procedure TOrganizationNode.Paint();
-var
-  x, y      : integer;
-  Points    : array of TPoint;
-begin
-  if NodeShape<>nsDiamond then begin
-    inherited;
-  end else begin
-    SetLength(Points, 4);
-    Points[0] := Point(0, Self.Height div 2);
-    Points[1] := Point(Self.Width div 2,0);
-    Points[2] := Point(self.Width, Self.Height div 2);
-    Points[3] := Point(Self.Width div 2,Self.Height);
-
-    self.Canvas.Brush.Color := self.Brush.Color;
-    Self.Canvas.Polygon(Points);
-  end;
-
-  x := (Self.Width - Self.Canvas.TextWidth(TopicName)) div 2;
-  y := (Self.Height - Self.Canvas.TextHeight(TopicName)) div 2;
-  Self.Canvas.Font.Color := Self.Font.Color;
-
-  Self.Text := TopicName;
-  Self.Caption := TopicName;
-  _DrawTextBroadwise(Self.Canvas);
-end;
-
 function TOrganizationNode._GetAlign: TOrganizationNodeShapeAlignment;
 begin
   Result := _NodeAlign;
@@ -397,12 +498,15 @@ end;
 
 function TOrganizationNode._GetTopicName: WideString;
 begin
-  Result := _TopicName;
+  Result := Caption;
 end;
 
 procedure TOrganizationNode._SetAlign(const Value: TOrganizationNodeShapeAlignment);
 begin
-  _NodeAlign := value;
+  if _NodeAlign <> Value then begin
+    _NodeAlign := Value;
+    Invalidate;
+  end;
 end;
 
 procedure TOrganizationNode._SetColor(const Value: TColor);
@@ -423,6 +527,8 @@ begin
   end else begin
     Self.Font.Color := clWhite;
   end;
+
+  Invalidate;
 end;
 
 procedure TOrganizationNode._SetCreationDate(const Value: TDateTime);
@@ -432,24 +538,20 @@ end;
 
 procedure TOrganizationNode._SetShape(const Value: TOrganizationNodeShapeType);
 begin
-  _NodeShape := Value;
-  case _NodeShape of
-    nsRectangle : Shape := stRectangle;
-    nsRoundRect : Shape := stRoundRect;
-    nsEllipse   : Shape := stEllipse;
-    nsCircle    : shape := stCircle;
-    nsSquare    : shape := stSquare;
-    nsDiamond   : Shape := stCircle;
+  if _NodeShape <> Value then begin
+    _NodeShape := Value;
+    Invalidate;
   end;
 end;
 
 procedure TOrganizationNode._SetTopicName(const Value: WideString);
-var Temp : WideString;
+var
+  Temp : WideString;
 begin
   Temp := Trim(Value);
   if Temp <> TopicName then begin
-    _TopicName := Temp;
-    Repaint;
+    Caption := Temp;
+    Invalidate;
   end;
 end;
 
@@ -923,17 +1025,17 @@ constructor TFontMetrics.Create(ACanvas: TCanvas);
 begin
   ownercanvas := ACanvas;
 end;
-function TFontMetrics.getAscent: integer;
+function TFontMetrics.GetAscent: integer;
 begin
   result := 0;
 end;
 
-function TFontMetrics.getHeight: integer;
+function TFontMetrics.GetHeight: integer;
 begin
   result := ownerCanvas.TextHeight('Jp');
 end;
 
-function TFontMetrics.stringWidth(Value: String): integer;
+function TFontMetrics.StringWidth(Value: WideString): integer;
 begin
   result := ownerCanvas.TextWidth(Value);
 end;
