@@ -60,6 +60,7 @@ type
     spdNodeShapeCard: TSpeedButton;
     spdNodeShapeDiamond: TSpeedButton;
     spdNodeShapeRoundSquare: TSpeedButton;
+    lblNodeTimestamp: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCreatedDateChange(Sender: TObject);
     procedure spnHeightChange(Sender: TObject);

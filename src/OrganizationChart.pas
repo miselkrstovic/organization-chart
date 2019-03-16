@@ -101,8 +101,9 @@ type
 
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function HasChildren : boolean;
-    function IsAbandoner : boolean;
+    function HasChildren : Boolean;
+    function IsAbandoner : Boolean;
+    function IsSelected : Boolean;
     procedure DoClick(Sender : Tobject);
     procedure DoMouseLeave(Sender : Tobject);
     procedure DoMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -243,7 +244,8 @@ procedure TOrganizationNode.DoClick(Sender: Tobject);
 begin
   TOrganizationChart(Self.Parent).ResetColor;
   TOrganizationChart(Self.Parent).SelectedNode := Self;
-  Self.Brush.Color := TOrganizationChart(Self.Parent)._SelectedNodeColor;
+
+  Invalidate;
 
   if Assigned(OnClick) then _OnClick(Self);
 end;
@@ -285,10 +287,30 @@ begin
   end;
 end;
 
+function TOrganizationNode.IsSelected: Boolean;
+Var
+  _SelNode : TOrganizationNode;
+begin
+  _SelNode := TOrganizationChart(Self.Parent).SelectedNode;
+
+  if Assigned(_SelNode)
+  and (_SelNode <> TOrganizationChart(Self.Parent).RootNode) then begin
+    result := _SelNode = Self;
+  end else begin
+    result := false;
+  end;
+end;
+
 procedure TOrganizationNode.Paint();
 var
   x, y : integer;
 begin
+  if IsSelected then begin
+    Self.Brush.Color := TOrganizationChart(Self.Parent).SelectedNodeColor
+  end else begin
+    Self.Brush.Color := Self.NodeColor;
+  end;
+
   if NodeShape = nsCustom then begin
     _DrawCustomShape();
   end else if NodeShape = nsCard then begin
@@ -341,7 +363,6 @@ begin
   Points[2] := Point(self.Width, Self.Height div 2);
   Points[3] := Point(Self.Width div 2,Self.Height);
 
-  self.Canvas.Brush.Color := self.Brush.Color;
   Self.Canvas.Polygon(Points);
 end;
 

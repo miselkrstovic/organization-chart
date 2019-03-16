@@ -933,6 +933,15 @@ object frmMain: TfrmMain
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       OnClick = spdNodeShapeClick
     end
+    object lblNodeTimestamp: TLabel
+      Left = 8
+      Top = 306
+      Width = 51
+      Height = 13
+      Caption = 'Timestamp'
+      Color = clBlack
+      ParentColor = False
+    end
     object pnlNodeOptionsHeader: TPanel
       Left = 1
       Top = 1
